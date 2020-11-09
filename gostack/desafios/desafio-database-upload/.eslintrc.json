@@ -1,7 +1,8 @@
 {
   "env": {
-    "es2020": true,
-    "node": true
+    "es6": true,
+    "node": true,
+    "jest": true
   },
   "extends": [
     "airbnb-base",
@@ -23,20 +24,18 @@
     "prettier"
   ],
   "rules": {
+    "no-underscore-dangle": "off",
+    "prettier/prettier": "error",
+    "class-methods-use-this": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "argsIgnorePattern": "_"
+    }],
     "import/extensions": [
       "error",
       "ignorePackages",
       {
         "ts": "never"
-      }
-    ],
-    "prettier/prettier": "error",
-    "class-methods-use-this": "off",
-    "camelcase": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "_"
       }
     ]
   },

@@ -1,15 +1,18 @@
-import express, { NextFunction, Request, Response } from 'express';
-import 'express-async-errors';
 import 'reflect-metadata';
-import uploadConfig from './config/upload';
-import './database';
-import AppError from './errors/AppError';
-import routes from './routes';
+import 'dotenv/config';
 
+import express, { Request, Response, NextFunction } from 'express';
+import 'express-async-errors';
+
+import routes from './routes';
+import AppError from './errors/AppError';
+
+import createConnection from './database';
+
+createConnection();
 const app = express();
 
 app.use(express.json());
-app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
 
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
@@ -28,6 +31,4 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   });
 });
 
-app.listen(3333, () => {
-  console.log('🚀 Server is running on http://localhost:3333');
-});
+export default app;
