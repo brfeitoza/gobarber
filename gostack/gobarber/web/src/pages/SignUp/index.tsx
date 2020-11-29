@@ -1,15 +1,15 @@
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import React, { useCallback, useRef } from 'react';
-import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import { FiArrowLeft, FiLock, FiMail, FiUser } from 'react-icons/fi';
 import * as Yup from 'yup';
 import logoImg from '../../assets/logo.svg';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { Container, Content, Background } from './styles';
+import { Background, Container, Content } from './styles';
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const handleSubmit = useCallback(async (data: any) => {
@@ -17,10 +17,11 @@ const SignIn: React.FC = () => {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
+        name: Yup.string().required('O nome é obrigatório.'),
         email: Yup.string()
           .required('O e-mail é obrigatório.')
           .email('Digite um e-mail válido.'),
-        password: Yup.string().required('A senha é obrigatória.'),
+        password: Yup.string().min(6, 'A senha deve ter no mínimo 6 dígitos.'),
       });
 
       await schema.validate(data, {
@@ -35,12 +36,14 @@ const SignIn: React.FC = () => {
 
   return (
     <Container>
+      <Background />
       <Content>
         <img src={logoImg} alt="GoBarber" />
 
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Faça seu logon</h1>
+          <h1>Faça seu cadastro</h1>
 
+          <Input name="name" icon={FiUser} placeholder="Nome" />
           <Input name="email" icon={FiMail} placeholder="E-mail" />
           <Input
             name="password"
@@ -49,19 +52,16 @@ const SignIn: React.FC = () => {
             placeholder="Senha"
           />
 
-          <Button type="submit">Entrar</Button>
-
-          <a href="forgot">Esqueci minha senha</a>
+          <Button type="submit">Cadastrar</Button>
         </Form>
 
         <a href="signup">
-          <FiLogIn />
-          Criar conta
+          <FiArrowLeft />
+          Voltar para logon
         </a>
       </Content>
-      <Background />
     </Container>
   );
 };
 
-export default SignIn;
+export default SignUp;
